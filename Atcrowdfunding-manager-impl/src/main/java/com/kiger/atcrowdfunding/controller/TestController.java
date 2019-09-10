@@ -9,7 +9,6 @@ import com.kiger.atcrowdfunding.manager.service.TestService;
 @Controller
 public class TestController {
 
-
     @Autowired
     private TestService testService;
 

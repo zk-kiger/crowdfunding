@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiger.atcrowdfunding.manager.dao.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.kiger.atcrowdfunding.bean.Project">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="money" jdbcType="BIGINT" property="money" />
+    <result column="day" jdbcType="INTEGER" property="day" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="deploydate" jdbcType="CHAR" property="deploydate" />
+    <result column="supportmoney" jdbcType="BIGINT" property="supportmoney" />
+    <result column="supporter" jdbcType="INTEGER" property="supporter" />
+    <result column="completion" jdbcType="INTEGER" property="completion" />
+    <result column="memberid" jdbcType="INTEGER" property="memberid" />
+    <result column="createdate" jdbcType="CHAR" property="createdate" />
+    <result column="follower" jdbcType="INTEGER" property="follower" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.Project">
+    insert into t_project (id, name, remark, 
+      money, day, status, deploydate, 
+      supportmoney, supporter, completion, 
+      memberid, createdate, follower
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{money,jdbcType=BIGINT}, #{day,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, #{deploydate,jdbcType=CHAR}, 
+      #{supportmoney,jdbcType=BIGINT}, #{supporter,jdbcType=INTEGER}, #{completion,jdbcType=INTEGER}, 
+      #{memberid,jdbcType=INTEGER}, #{createdate,jdbcType=CHAR}, #{follower,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.Project">
+    update t_project
+    set name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      money = #{money,jdbcType=BIGINT},
+      day = #{day,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
+      deploydate = #{deploydate,jdbcType=CHAR},
+      supportmoney = #{supportmoney,jdbcType=BIGINT},
+      supporter = #{supporter,jdbcType=INTEGER},
+      completion = #{completion,jdbcType=INTEGER},
+      memberid = #{memberid,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=CHAR},
+      follower = #{follower,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, remark, money, day, status, deploydate, supportmoney, supporter, 
+    completion, memberid, createdate, follower
+    from t_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, remark, money, day, status, deploydate, supportmoney, supporter, 
+    completion, memberid, createdate, follower
+    from t_project
+  </select>
+</mapper>

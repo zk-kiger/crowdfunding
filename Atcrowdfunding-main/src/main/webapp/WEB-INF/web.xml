@@ -95,6 +95,10 @@
         -->
     </servlet-mapping>
 
+    <listener>
+        <listener-class>com.kiger.atcrowdfunding.listener.StartSystemListener</listener-class>
+    </listener>
+
     <!-- 会话超时时间 -->
     <session-config>
         <session-timeout>60</session-timeout>

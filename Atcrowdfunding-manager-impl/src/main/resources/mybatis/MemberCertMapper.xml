@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiger.atcrowdfunding.manager.dao.MemberCertMapper">
+  <resultMap id="BaseResultMap" type="com.kiger.atcrowdfunding.bean.MemberCert">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="memberid" jdbcType="INTEGER" property="memberid" />
+    <result column="certid" jdbcType="INTEGER" property="certid" />
+    <result column="iconpath" jdbcType="VARCHAR" property="iconpath" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_member_cert
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.MemberCert">
+    insert into t_member_cert (id, memberid, certid, 
+      iconpath)
+    values (#{id,jdbcType=INTEGER}, #{memberid,jdbcType=INTEGER}, #{certid,jdbcType=INTEGER}, 
+      #{iconpath,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.MemberCert">
+    update t_member_cert
+    set memberid = #{memberid,jdbcType=INTEGER},
+      certid = #{certid,jdbcType=INTEGER},
+      iconpath = #{iconpath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, memberid, certid, iconpath
+    from t_member_cert
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, memberid, certid, iconpath
+    from t_member_cert
+  </select>
+</mapper>

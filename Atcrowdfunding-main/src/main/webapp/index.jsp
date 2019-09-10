@@ -1,6 +1,6 @@
 <html>
 <body>
-    <h2>Hello World!</h2>
-    <a href="${pageContext.request.contextPath }/test.do">test</a>
+<h2>Hello World!</h2>
+<jsp:forward page="${APP_PATH}/index.htm"/>
 </body>
 </html>

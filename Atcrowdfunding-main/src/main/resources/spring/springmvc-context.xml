@@ -38,16 +38,20 @@
 
 	
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
-        <property name="prefix" value="/WEB-INF/views/"></property>
-        <property name="suffix" value=".jsp"></property>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
     
     <bean id="exceptionResolver"   class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
-        <property name="exceptionMappings">  
+        <!-- 异常解析器捕获异常后，会将异常对象存放到request域。属性名称默认为exception -->
+        <!--<property name="exceptionAttribute" value="exception"/>-->
+
+        <property name="exceptionMappings">
             <props>
                 <prop key="java.lang.Exception">error/error</prop>
-            </props>  
+                <prop key="com.kiger.atcrowdfunding.exception.LoginFailException">login</prop>
+            </props>
         </property>  
     </bean>
 
