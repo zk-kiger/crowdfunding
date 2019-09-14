@@ -39,15 +39,17 @@
 
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
         <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" id="inputAcct" name="loginacct" value="superadmin" placeholder="请输入登录账号" autofocus>
+            <input type="text" class="form-control" id="floginacct" name="loginacct" value="superadmin"
+                   placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <input type="password" class="form-control" id="inputPswd" name="userpswd" value="123" placeholder="请输入登录密码" style="margin-top:10px;">
+            <input type="password" class="form-control" id="fuserpswd" name="userpswd" value="123" placeholder="请输入登录密码"
+                   style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <select class="form-control" name="type">
+            <select class="form-control" id="ftype" name="type">
                 <option value="member">会员</option>
                 <option value="user" selected>管理</option>
             </select>
@@ -71,7 +73,47 @@
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script>
     function dologin() {
-        $("#loginForm").submit();
+        var loginacct = $("#floginacct");
+        var userpswd = $("#fuserpswd");
+        var type = $("#ftype");
+
+        // 文本框没有内容，获取的值为""
+        if ($.trim(loginacct.val()) == "") {
+            alert("用户账号不能为空!");
+            $("#floginacct").focus();
+            return false;
+        }
+
+        if ($.trim(userpswd.val().trim()) == "") {
+            alert("用户密码不能为空!");
+            $("#fuserpswd").focus();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            data: {
+                loginacct: loginacct.val(),
+                userpswd: userpswd.val(),
+                type: type.val()
+            },
+            url: "${APP_PATH}/doLogin.do",
+            beforeSend: function () {
+                // 一般做表单数据校验
+                return true;
+            },
+            success: function (result) {
+                if (result.success) {
+                    // 跳转主页面
+                    window.location.href="${APP_PATH}/main.htm";
+                } else {
+                    alert("not ok");
+                }
+            }
+        });
+
+
+        // $("#loginForm").submit();
         /*var type = $(":selected").val();
         if (type == "user") {
             window.location.href = "main.html";

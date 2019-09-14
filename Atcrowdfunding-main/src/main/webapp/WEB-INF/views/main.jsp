@@ -41,24 +41,17 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li style="padding-top:8px;">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-user"></i> 张三 <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 个人设置</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
-                            <li class="divider"></li>
-                            <li><a href="index.html"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li style="margin-left:10px;padding-top:8px;">
-                    <button type="button" class="btn btn-default btn-danger">
-                        <span class="glyphicon glyphicon-question-sign"></span> 帮助
-                    </button>
-                </li>
+
+            <%-- HTML注解:会参与编译,会生成到源码中. --%>
+            <%-- JSP注解:注解的内容不参与编译,不会生成到源码中 --%>
+            <%-- 动态包含：被包含的页面也会独立编译,生成字节码文件(效率低) --%>
+                <%--<jsp:include page="/WEB-INF/views/common/top.jsp"/>--%>
+            <%-- 静态包含：被包含的页面不会生成独立字节码文件
+                    将所包含的页面内容加入到当前页面,一起编译
+             --%>
+                <%@
+                    include file="/WEB-INF/views/common/top.jsp"
+                %>
             </ul>
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="查询">
@@ -162,9 +155,9 @@
         </div>
     </div>
 </div>
-<script src="jquery/jquery-2.1.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="script/docs.min.js"></script>
+<script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
+<script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
+<script src="${APP_PATH}/script/docs.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function(){
