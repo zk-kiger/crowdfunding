@@ -71,6 +71,7 @@
 </div>
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script>
     function dologin() {
         var loginacct = $("#floginacct");
@@ -79,8 +80,10 @@
 
         // 文本框没有内容，获取的值为""
         if ($.trim(loginacct.val()) == "") {
-            alert("用户账号不能为空!");
-            $("#floginacct").focus();
+            // alert("用户账号不能为空!");
+            layer.msg("用户账号不能为空!",{time:1000, icon:5, shift:6}, function () {
+                $("#floginacct").focus();
+            });
             return false;
         }
 
@@ -89,6 +92,8 @@
             $("#fuserpswd").focus();
             return false;
         }
+
+        var loadingIndex = -1;
 
         $.ajax({
             type: "POST",
@@ -99,15 +104,17 @@
             },
             url: "${APP_PATH}/doLogin.do",
             beforeSend: function () {
+                loadingIndex = layer.msg('处理中', {icon:6});
                 // 一般做表单数据校验
                 return true;
             },
             success: function (result) {
+                layer.close(loadingIndex);
                 if (result.success) {
                     // 跳转主页面
                     window.location.href="${APP_PATH}/main.htm";
                 } else {
-                    alert("not ok");
+                    layer.msg(result.message,{time:1000, icon:5, shift:6});
                 }
             }
         });

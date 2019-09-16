@@ -45,4 +45,32 @@
          select id, loginacct, userpswd, username, email, createtime
           from t_user where loginacct=#{loginacct} and userpswd=#{userpswd}
     </select>
+
+    <!--<select id="queryList" resultMap="BaseResultMap">
+         select id, loginacct, userpswd, username, email, createtime
+          from t_user limit #{startIndex}, #{pagesize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+         select count(*)
+          from t_user
+    </select>-->
+
+    <select id="queryList" resultMap="BaseResultMap">
+        select id, loginacct, userpswd, username, email, createtime
+        from t_user
+        <where>
+            <if test="queryTest != null">loginacct like concat("%", "#{queryTest}", "%")</if>
+        </where>
+        limit #{startIndex}, #{pagesize}
+    </select>
+
+    <select id="queryCount" resultType="int">
+        select count(*)
+        from t_user
+        <where>
+            <if test="queryTest != null">loginacct like concat("%", "#{queryTest}", "%")</if>
+        </where>
+    </select>
+
 </mapper>

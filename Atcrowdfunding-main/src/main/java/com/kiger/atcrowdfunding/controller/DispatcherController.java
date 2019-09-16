@@ -77,8 +77,6 @@ public class DispatcherController {
             result.setSuccess(false);
         }
 
-        // 重定向main页面，不使用转发，防止刷新页面之后重复提交表单(doLogin和转发是同一个页面)
-        // 重定向到main页面，再次刷新也不会提交表单
         return result;
     }
 
