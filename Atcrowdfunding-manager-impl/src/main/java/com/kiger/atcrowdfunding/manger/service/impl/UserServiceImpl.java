@@ -1,13 +1,19 @@
 package com.kiger.atcrowdfunding.manger.service.impl;
 
+import com.kiger.atcrowdfunding.bean.Role;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.exception.LoginFailException;
 import com.kiger.atcrowdfunding.manager.dao.UserMapper;
 import com.kiger.atcrowdfunding.manager.service.UserService;
+import com.kiger.atcrowdfunding.util.Const;
+import com.kiger.atcrowdfunding.util.MD5Util;
 import com.kiger.atcrowdfunding.util.Page;
+import com.kiger.atcrowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }*/
 
     public int saveUser(User user) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        user.setCreatetime(sdf.format(new Date()));
+
+        user.setUserpswd(MD5Util.digest(Const.PASSWORD));
+
         return userMapper.insert(user);
     }
 
@@ -67,4 +78,54 @@ public class UserServiceImpl implements UserService {
 
         return page;
     }
+
+    public User getUserById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    public int updateUser(User user) {
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    public int deleteUser(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
+    public int deleteBatchUser(Integer[] ids) {
+        int count = 0;
+
+        for (Integer id :
+                ids) {
+            count += userMapper.deleteByPrimaryKey(id);
+        }
+
+        return count;
+    }
+    /*public int deleteBatchUserByVO(Data data) {
+
+        return userMapper.deleteBatchUserByVO(data);
+    }*/
+
+    public int deleteBatchUserByVO(Data data) {
+
+        return userMapper.deleteBatchUserByVO(data.getDatas());
+    }
+
+    public List<Role> queryAllRole() {
+        return userMapper.queryAllRole();
+    }
+
+    public List<Integer> queryRoleByUserId(Integer id) {
+        return userMapper.queryRoleByUserId(id);
+    }
+
+    public int saveUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.saveUserRoleRelationship(userid, data);
+    }
+
+    public int deleteUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.deleteUserRoleRelationship(userid, data);
+    }
+
+
 }

@@ -14,7 +14,8 @@
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.User">
+    <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.User"
+            useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, loginacct, userpswd, 
       username, email, createtime
       )
@@ -25,10 +26,8 @@
     <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.User">
     update t_user
     set loginacct = #{loginacct,jdbcType=VARCHAR},
-      userpswd = #{userpswd,jdbcType=CHAR},
       username = #{username,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=CHAR}
+      email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -60,8 +59,9 @@
         select id, loginacct, userpswd, username, email, createtime
         from t_user
         <where>
-            <if test="queryTest != null">loginacct like concat("%", "#{queryTest}", "%")</if>
+            <if test="queryTest != null">loginacct like concat("%", #{queryTest}, "%")</if>
         </where>
+        order by createtime desc
         limit #{startIndex}, #{pagesize}
     </select>
 
@@ -69,8 +69,47 @@
         select count(*)
         from t_user
         <where>
-            <if test="queryTest != null">loginacct like concat("%", "#{queryTest}", "%")</if>
+            <if test="queryTest != null">loginacct like concat("%", #{queryTest}, "%")</if>
         </where>
     </select>
+
+    <!--<delete id="deleteBatchUserByVO">
+        delete from t_user where id in
+        <foreach collection="datas" open="(" close=")" separator="," item="user">
+            #{user.id}
+        </foreach>
+    </delete>-->
+
+    <!--
+        如果Mapper接口参数类型为Collection集合，那么可以使用list来获取这个集合参数
+        如果Mapper接口参数类型为Array集合，那么可以使用array来获取这个集合参数
+    -->
+    <delete id="deleteBatchUserByVO">
+        delete from t_user where id in
+        <foreach collection="list" open="(" close=")" separator="," item="user">
+            #{user.id}
+        </foreach>
+    </delete>
+
+    <select id="queryAllRole" resultType="Role">
+        select id, name from t_role;
+    </select>
+
+    <select id="queryRoleByUserId" parameterType="int" resultType="int">
+        select roleid from t_user_role where userid=#{id}
+    </select>
+
+    <insert id="saveUserRoleRelationship">
+        <foreach collection="data.ids" item="roleid" separator=";">
+            insert into t_user_role(userid, roleid) values(#{userid}, #{roleid})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserRoleRelationship">
+        delete from t_user_role where userid=#{userid} and roleid in
+        <foreach collection="data.ids" item="roleid" open="(" separator="," close=")">
+            #{roleid}
+        </foreach>
+    </delete>
 
 </mapper>

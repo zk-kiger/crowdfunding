@@ -15,7 +15,9 @@ public class Page {
     private Integer pageno;
     private Integer pagesize;
     private List data;
+    // 总数据个数
     private Integer totalSize;
+    // 总页数
     private Integer totalno;
 
     public Page() {

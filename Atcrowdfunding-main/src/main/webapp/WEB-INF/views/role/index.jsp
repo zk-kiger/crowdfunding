@@ -1,12 +1,11 @@
 <%--
   Created by IntelliJ IDEA.
   User: zk_kiger
-  Date: 2019/9/15
-  Time: 18:38
+  Date: 2019/9/18
+  Time: 22:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -40,7 +39,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 用户维护</a></div>
+            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 角色维护</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -74,21 +73,17 @@
                         <div class="form-group has-feedback">
                             <div class="input-group">
                                 <div class="input-group-addon">查询条件</div>
-                                <input id="queryTest" class="form-control has-success" type="text"
-                                       placeholder="请输入查询条件">
+                                <input id="queryTest" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button id="queryBtn" type="button" class="btn btn-warning"><i
-                                class="glyphicon glyphicon-search"></i> 查询
+                        <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
-                    <button type="button" class="btn btn-danger" id="deleteBatchBtn"
-                            style="float:right;margin-left:10px;"><i
+                    <button id="deleteBatchBtn" type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary" style="float:right;"
-                            onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i
-                            class="glyphicon glyphicon-plus"></i> 新增
+                            onclick="window.location.href='${APP_PATH}/role/add.htm'"><i class="glyphicon glyphicon-plus"></i> 新增
                     </button>
                     <br>
                     <hr style="clear:both;">
@@ -98,9 +93,7 @@
                             <tr>
                                 <th width="30">#</th>
                                 <th width="30"><input id="allCheckbox" type="checkbox"></th>
-                                <th>账号</th>
                                 <th>名称</th>
-                                <th>邮箱地址</th>
                                 <th width="100">操作</th>
                             </tr>
                             </thead>
@@ -128,7 +121,7 @@
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
-<script src="${APP_PATH}/jquery/layer/layer.js"></script>
+<script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -143,27 +136,25 @@
             }
         });
         showMenu();
-        queryPageUser(1);
+        queryPageRole(1);
     });
 
     function pageChange(pageno) {
-        <%--window.location.href = "${APP_PATH}/user/index.do?pageno="+pageno;--%>
-        queryPageUser(pageno);
+        queryPageRole(pageno);
     }
 
+    // 分页查询
     var jsonObj = {
         "pageno": 1,
-        "pagesize": 10
+        "pagesize": 5
     };
-
     var loadingIndex = -1;
-
-    function queryPageUser(pageno) {
+    function queryPageRole(pageno) {
         jsonObj.pageno = pageno;
         $.ajax({
             type: "POST",
             data: jsonObj,
-            url: "${APP_PATH}/user/doIndex.do",
+            url: "${APP_PATH}/role/doIndex.do",
             beforeSend: function () {
                 loadingIndex = layer.load(2, {time: 10 * 1000});
                 return true;
@@ -172,36 +163,28 @@
                 layer.close(loadingIndex);
                 if (result.success) {
                     var page = result.page;
-                    var data = page.data;
-
+                    var datas = page.data;
                     var content = '';
-
-                    $.each(data, function (i, n) {
+                    $.each(datas, function (i,n) {
                         content += '<tr>';
-                        content += '	<td>' + (i + 1) + '</td>';
-                        content += '	<td><input type="checkbox" id="' + n.id + '" name="' + n.loginacct + '"></td>';
-                        content += '	<td>' + n.loginacct + '</td>';
-                        content += '	<td>' + n.username + '</td>';
-                        content += '	<td>' + n.email + '</td>';
+                        content += '	<td>'+ (i+1) +'</td>';
+                        content += '	<td><input type="checkbox" id="'+ n.id +'" name="'+ n.name +'"></td>';
+                        content += '	<td>'+ n.name +'</td>';
                         content += '	<td>';
-                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/user/assignRole.htm?id=' + n.id + '\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/user/toUpdate.htm?id=' + n.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        content += '		<button type="button" onclick="deleteUser(' + n.id + ', \'' + n.loginacct + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/role/assign.htm?id='+ n.id +'\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/role/edit.htm?id='+ n.id +'\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                        content += '		<button type="button" onclick="deleteRole('+ n.id +',\''+ n.name +'\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content += '	</td>';
                         content += '</tr>';
                     });
-
                     $("tbody").html(content);
 
-
                     var contentBar = '';
-
                     if (page.pageno == 1) {
                         contentBar += '<li class="disabled"><a href="#">上一页</a></li>';
                     } else {
                         contentBar += '<li><a href="#" onclick="pageChange(' + (page.pageno - 1) + ')">上一页</a></li>';
                     }
-
                     for (var i = 1; i <= page.totalno; i++) {
                         contentBar += '<li';
                         if (page.pageno == i) {
@@ -209,14 +192,11 @@
                         }
                         contentBar += '><a href="#" onclick="pageChange(' + i + ')">' + i + '</a></li>';
                     }
-
-
                     if (page.pageno == page.totalno) {
                         contentBar += '<li class="disabled"><a href="#">下一页</a></li>';
                     } else {
                         contentBar += '<li><a href="#" onclick="pageChange(' + (page.pageno + 1) + ')">下一页</a></li>';
                     }
-
                     $(".pagination").html(contentBar);
 
                 } else {
@@ -226,84 +206,80 @@
         });
     }
 
+    // 查询
     $("#queryBtn").click(function () {
         var queryTest = $("#queryTest").val();
         jsonObj.queryTest = queryTest;
-        queryPageUser(1);
+        queryPageRole(1);
     });
 
-    function deleteUser(id, loginacct) {
 
-        layer.confirm("确认要删除[" + loginacct + "]用户吗?", {icon: 3, title: '提示'}, function (cindex) {
+    // 异步删除
+    function deleteRole(id, name) {
+
+        layer.confirm("确认要删除[" + name + "]角色吗?", {icon: 3, title: '提示'}, function (cindex) {
+
             $.ajax({
                 type: "POST",
                 data: {
                     id: id
                 },
-                url: "${APP_PATH}/user/delete.do",
+                url: "${APP_PATH}/role/doDelete.do",
                 beforeSend: function () {
                     return true;
                 },
                 success: function (result) {
                     if (result.success) {
-                        window.location.href = "${APP_PATH}/user/toIndex.htm";
+                        window.location.href = "${APP_PATH}/role/index.htm";
                     } else {
                         layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                     }
                 }
             });
-            // layer.close(cindex);
+
         }, function (cindex) {
             layer.close(cindex);
         });
     }
 
+    // 复选框全选
     $("#allCheckbox").click(function () {
-        var checkedStatus = this.checked;
 
-        // $("tbody tr td input[type='checkbox']").prop("checked", checkedStatus);
-        var tbodyCheckbox = $("tbody tr td input[type='checkbox']");
-        $.each(tbodyCheckbox, function (i, n) {
-            n.checked = checkedStatus;
-        });
+        var checkStatus = this.checked;
+
+        $("tbody tr td input[type='checkbox']").prop("checked", checkStatus);
     });
 
+    // 批量删除
     $("#deleteBatchBtn").click(function () {
 
         var selectCheckbox = $("tbody tr td input:checked");
 
+        alert(selectCheckbox.length);
         if (selectCheckbox.length == 0) {
             layer.msg("至少选择一个用户进行删除!", {time: 1000, icon: 5, shift: 6});
             return false;
         }
 
-        /*var idStr = "";
-        $.each(selectCheckbox, function (i,n) {
-            if (i != 0) {
-                idStr += "&";
-            }
-            idStr += "id=" + n.id;
-        });*/
-
-        var jsonobj = {};
+        var jsonObj = {};
         $.each(selectCheckbox, function (i, n) {
-            jsonobj["datas[" + i + "].id"] = n.id;
-            jsonobj["datas[" + i + "].loginacct"] = n.name;
+            alert(n.id + " " + n.name);
+            jsonObj["roles["+ i +"].id"] = n.id;
+            jsonObj["roles["+ i +"].name"] = n.name;
         });
-
-        layer.confirm("确认要删选中用户吗?", {icon: 3, title: '提示'}, function (cindex) {
+        layer.confirm("确认要删选中角色吗?", {icon: 3, title: '提示'}, function (cindex) {
             $.ajax({
                 type: "POST",
                 // 如果需要传数组时，可以使用 url?id=5&id=6&7的形式
                 // data: idStr,
-                data: jsonobj,
-                url: "${APP_PATH}/user/deleteBatch.do",
+                data: jsonObj,
+                url: "${APP_PATH}/role/deleteBatch.do",
                 beforeSend: function () {
                     return true;
                 },
                 success: function (result) {
                     if (result.success) {
-                        window.location.href = "${APP_PATH}/user/toIndex.htm";
+                        window.location.href = "${APP_PATH}/role/index.htm";
                     } else {
                         layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                     }
@@ -313,9 +289,8 @@
         }, function (cindex) {
             layer.close(cindex);
         });
-
-
     });
+
 
 </script>
 </body>

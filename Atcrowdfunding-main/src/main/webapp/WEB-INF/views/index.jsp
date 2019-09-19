@@ -299,7 +299,7 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <div class="box ui-draggable" id="mainBox">
+                <div class="box ui-draggable">
                     <div class="mHd" style="">
                         <div class="path">
                             <a href="projects.html">更多...</a>
@@ -442,7 +442,7 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <div class="box ui-draggable" id="mainBox">
+                <div class="box ui-draggable">
                     <div class="mHd" style="">
                         <div class="path">
                             <a href="projects.html">更多...</a>
@@ -585,7 +585,7 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <div class="box ui-draggable" id="mainBox">
+                <div class="box ui-draggable">
                     <div class="mHd" style="">
                         <div class="path">
                             <a href="projects.html">更多...</a>
