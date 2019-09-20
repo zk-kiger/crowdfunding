@@ -62,7 +62,9 @@ public class RoleController {
         try {
             System.out.println(data.getRoles());
             int count = roleService.deleteBatchRole(data);
-            result.setSuccess(count == data.getDatas().size());
+            System.out.println(count);
+            System.out.println(data.getDatas().size());
+            result.setSuccess(count == data.getRoles().size());
         } catch (Exception e) {
             result.setMessage("批量删除角色数据失败!");
             result.setSuccess(false);

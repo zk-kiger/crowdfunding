@@ -255,7 +255,6 @@
 
         var selectCheckbox = $("tbody tr td input:checked");
 
-        alert(selectCheckbox.length);
         if (selectCheckbox.length == 0) {
             layer.msg("至少选择一个用户进行删除!", {time: 1000, icon: 5, shift: 6});
             return false;
@@ -263,11 +262,11 @@
 
         var jsonObj = {};
         $.each(selectCheckbox, function (i, n) {
-            alert(n.id + " " + n.name);
             jsonObj["roles["+ i +"].id"] = n.id;
             jsonObj["roles["+ i +"].name"] = n.name;
         });
         layer.confirm("确认要删选中角色吗?", {icon: 3, title: '提示'}, function (cindex) {
+
             $.ajax({
                 type: "POST",
                 // 如果需要传数组时，可以使用 url?id=5&id=6&7的形式
@@ -285,7 +284,7 @@
                     }
                 }
             });
-            // layer.close(cindex);
+
         }, function (cindex) {
             layer.close(cindex);
         });
