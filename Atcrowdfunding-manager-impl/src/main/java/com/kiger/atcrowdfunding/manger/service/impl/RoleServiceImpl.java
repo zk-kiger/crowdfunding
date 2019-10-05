@@ -1,6 +1,7 @@
 package com.kiger.atcrowdfunding.manger.service.impl;
 
 import com.kiger.atcrowdfunding.bean.Role;
+import com.kiger.atcrowdfunding.bean.RolePermission;
 import com.kiger.atcrowdfunding.manager.dao.RoleMapper;
 import com.kiger.atcrowdfunding.manager.service.RoleService;
 import com.kiger.atcrowdfunding.util.Page;
@@ -57,5 +58,23 @@ public class RoleServiceImpl implements RoleService {
 
     public int deleteBatchRole(Data data) {
         return roleMapper.deleteBatchRole(data.getRoles());
+    }
+
+    public int saveRolePermissionRelationship(Integer roleid, Data datas) {
+
+        // 删除关于角色id已有的所有许可id
+        roleMapper.deleteRolePermissionRelationship(roleid);
+
+        int totalCount = 0;
+        List<Integer> ids = datas.getIds();
+        for (Integer permissionId : ids
+             ) {
+            RolePermission rp = new RolePermission();
+            rp.setRoleid(roleid);
+            rp.setPermissionid(permissionId);
+            totalCount += roleMapper.insertRolePermission(rp);
+        }
+
+        return totalCount;
     }
 }

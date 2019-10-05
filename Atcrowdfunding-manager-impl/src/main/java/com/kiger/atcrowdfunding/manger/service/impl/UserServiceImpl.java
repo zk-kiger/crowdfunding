@@ -1,5 +1,6 @@
 package com.kiger.atcrowdfunding.manger.service.impl;
 
+import com.kiger.atcrowdfunding.bean.Permission;
 import com.kiger.atcrowdfunding.bean.Role;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.exception.LoginFailException;
@@ -125,6 +126,10 @@ public class UserServiceImpl implements UserService {
 
     public int deleteUserRoleRelationship(Integer userid, Data data) {
         return userMapper.deleteUserRoleRelationship(userid, data);
+    }
+
+    public List<Permission> queryPermissionByUserid(Integer id) {
+        return userMapper.queryPermissionByUserid(id);
     }
 
 

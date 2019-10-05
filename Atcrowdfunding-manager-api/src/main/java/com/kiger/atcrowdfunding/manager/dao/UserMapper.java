@@ -1,5 +1,6 @@
 package com.kiger.atcrowdfunding.manager.dao;
 
+import com.kiger.atcrowdfunding.bean.Permission;
 import com.kiger.atcrowdfunding.bean.Role;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.vo.Data;
@@ -40,4 +41,6 @@ public interface UserMapper {
     int saveUserRoleRelationship(@Param("userid") Integer userid,@Param("data") Data data);
 
     int deleteUserRoleRelationship(@Param("userid") Integer userid,@Param("data") Data data);
+
+    List<Permission> queryPermissionByUserid(Integer id);
 }

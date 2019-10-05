@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: zk_kiger
-  Date: 2019/9/19
-  Time: 21:45
+  Date: 2019/9/22
+  Time: 19:40
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -33,7 +33,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 角色维护</a></div>
+            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 许可维护</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -60,14 +60,14 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
             <div class="panel panel-default">
-                <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> 权限分配列表
+                <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i> 权限菜单列表
                     <div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i
                             class="glyphicon glyphicon-question-sign"></i></div>
                 </div>
                 <div class="panel-body">
-                    <button id="assignPermissionBtn" class="btn btn-success">分配许可</button>
-                    <br><br>
-                    <ul id="treeDemo" class="ztree"></ul>
+                    <ul id="treeDemo" class="ztree">
+
+                    </ul>
                 </div>
             </div>
         </div>
@@ -104,8 +104,8 @@
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
 <script src="${APP_PATH}/ztree/jquery.ztree.all-3.5.min.js"></script>
-<script src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script src="${APP_PATH}/script/menu.js"></script>
+<script src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function () {
@@ -117,78 +117,87 @@
                     $("ul", this).show("fast");
                 }
             }
-            showMenu();
         });
-
-        var setting = {
-            check: {
-                enable: true
-            },
-            view: {
-                selectedMulti: false,
-                addDiyDom: function (treeId, treeNode) {
-                    var icoObj = $("#" + treeNode.tId + "_ico"); // tId = permissionTree_1, $("#permissionTree_1_ico")
-                    if (treeNode.icon) {
-                        icoObj.removeClass("button ico_docu ico_open").addClass(treeNode.icon).css("background", "");
-                    }
-                },
-            },
-            async: {
-                enable: true,
-                url: "${APP_PATH}/role/loadDataAsync.do?roleid=${param.roleid}",
-                autoParam: ["id", "name=n", "level=lv"]
-            },
-            callback: {
-                onClick: function (event, treeId, json) {
-
-                }
-            }
-        };
-        $.fn.zTree.init($("#treeDemo"), setting); //异步访问数据
-
+        showMenu();
+        loadData();
     });
 
-    $("#assignPermissionBtn").click(function () {
-        var jsonObj = {
-            roleid: ${param.roleid}
-        };
+    var setting = {
+        view: {
+            selectedMulti: false,
+            addDiyDom: function (treeId, treeNode) {
+                var icoObj = $("#" + treeNode.tId + "_ico"); // tId = permissionTree_1, $("#permissionTree_1_ico")
+                if (treeNode.icon) {
+                    icoObj.removeClass("button ico_docu ico_open").addClass(treeNode.icon).css("background", "");
+                }
+            },
+            addHoverDom: function (treeId, treeNode) {
+                var aObj = $("#" + treeNode.tId + "_a"); // tId = permissionTree_1, ==> $("#permissionTree_1_a")
+                aObj.attr("href", "javascript:;");
+                if (treeNode.editNameFlag || $("#btnGroup" + treeNode.tId).length > 0) return;
+                var s = '<span id="btnGroup' + treeNode.tId + '">';
+                if (treeNode.level == 0) {
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="window.location.href=\'${APP_PATH}/permission/add.htm?id='+treeNode.id+'\'" >&nbsp;&nbsp;<i class="fa fa-fw fa-plus rbg "></i></a>';
+                } else if (treeNode.level == 1) {
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#" onclick="window.location.href=\'${APP_PATH}/permission/update.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
+                    if (treeNode.children.length == 0) {
+                        s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+ treeNode.id +', '+ treeNode.name +')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                    }
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="window.location.href=\'${APP_PATH}/permission/add.htm?id='+treeNode.id+'\'">&nbsp;&nbsp;<i class="fa fa-fw fa-plus rbg "></i></a>';
+                } else if (treeNode.level == 2) {
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#" onclick="window.location.href=\'${APP_PATH}/permission/update.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+ treeNode.id +', '+ treeNode.name +')">&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                }
 
-        var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                s += '</span>';
+                aObj.after(s);
+            },
+            removeHoverDom: function (treeId, treeNode) {
+                $("#btnGroup" + treeNode.tId).remove();
+            }
+        }
+    };
+    //$.fn.zTree.init($("#treeDemo"), setting); //异步访问数据
 
-        // 获取被选中的结点
-        var checkedNodes = treeObj.getCheckedNodes(true);
+    function loadData(){
+        $.ajax({
 
-        $.each(checkedNodes, function (i, n) {
-            jsonObj["ids["+ i +"]"] = n.id;
+            url:"${APP_PATH}/permission/loadData.do",
+            type:"post",
+            success:function(result){
+                if(result.success){
+                    var zNodes = result.data ;
+                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                }else{
+                    alert("加载数据失败...");
+                }
+            }
         });
+    }
 
-        if (checkedNodes.length == 0) {
-            layer.msg("请选择分配许可,至少分配一个许可!", {time: 1000, icon: 5, shift: 6});
-        } else {
-            // 发送异步,保存许可
-            var loadingIndex = -1;
+    function deletePermission(id, name) {
+
+        layer.confirm("确认要删除[" + name + "]许可吗?", {icon: 3, title: '提示'}, function (cindex) {
             $.ajax({
-                type: "POST",
-                url: "${APP_PATH}/role/doAssignPermission.do",
-                data: jsonObj,
-                beforeSend: function () {
-                    loadingIndex = layer.msg("正在分配许可...", {icon: 16});
-                    return true;
-                },
-                success: function (result) {
-                    layer.close(loadingIndex);
 
-                    if (result.success) {
-                        layer.msg("分配成功!", {time: 1000, icon: 6});
-                    } else {
-                        layer.msg("分配失败!", {time: 1000, icon: 5, shift: 6});
+                url:"${APP_PATH}/permission/deletePermission.do",
+                data: {
+                    id : id
+                },
+                type:"post",
+                success:function(result){
+                    if(result.success){
+                        loadData();
+                    }else{
+                        alert("删除许可数据失败...");
                     }
                 }
             });
-        }
-
-    });
+            layer.close(cindex);
+        }, function (cindex) {
+            layer.close(cindex);
+        });
+    }
 </script>
 </body>
 </html>
-

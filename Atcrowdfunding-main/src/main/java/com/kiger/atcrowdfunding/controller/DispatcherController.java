@@ -1,5 +1,6 @@
 package com.kiger.atcrowdfunding.controller;
 
+import com.kiger.atcrowdfunding.bean.Permission;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.manager.service.UserService;
 import com.kiger.atcrowdfunding.util.AjaxResult;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName DispatcherController
@@ -70,6 +70,42 @@ public class DispatcherController {
             User user = userService.queryUserLogin(paramMap);
 
             session.setAttribute(Const.LOGIN_USER, user);
+
+            // 将许可url存入session域中
+            // ---------------------------------------
+            // 当前用户所拥有的许可权限
+            List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
+
+            Permission permissionRoot = null;
+
+            Map<Integer, Permission> map = new HashMap<Integer, Permission>();
+            // 用于拦截器拦截许可权限
+            Set<String> myUris = new HashSet<>();
+
+            for (Permission innerpermission :
+                    myPermissions) {
+                map.put(innerpermission.getId(), innerpermission);
+                myUris.add("/" + innerpermission.getUrl());
+            }
+
+            session.setAttribute(Const.MY_URIS, myUris);
+
+            for (Permission permission:
+                    myPermissions) {
+                // 通过子查找父
+                Permission child = permission;
+                if (child.getPid() == null) {
+                    permissionRoot = permission;
+                } else {
+                    // 父结点
+                    Permission parent = map.get(child.getPid());
+                    parent.getChildren().add(child);
+                }
+            }
+
+            session.setAttribute("permissionRoot", permissionRoot);
+            // ---------------------------------------
+
 
             result.setSuccess(true);
         } catch (Exception e) {

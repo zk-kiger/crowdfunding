@@ -59,4 +59,10 @@
         <property name="maxUploadSize" value="2097152"/>
         <property name="resolveLazily" value="true"/>
     </bean>
+
+    <!-- 声明拦截器对象 -->
+    <mvc:interceptors>
+        <bean id="loginInterceptor" class="com.kiger.atcrowdfunding.interceptor.LoginInterceptor"/>
+        <bean id="authInterceptor" class="com.kiger.atcrowdfunding.interceptor.AuthInterceptor"/>
+    </mvc:interceptors>
 </beans>

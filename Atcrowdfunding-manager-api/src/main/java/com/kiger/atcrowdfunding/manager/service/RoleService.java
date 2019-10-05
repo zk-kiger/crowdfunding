@@ -27,4 +27,6 @@ public interface RoleService {
     int updateRole(Role role);
 
     int deleteBatchRole(Data data);
+
+    int saveRolePermissionRelationship(Integer roleid, Data datas);
 }

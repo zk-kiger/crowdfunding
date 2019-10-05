@@ -1,38 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiger.atcrowdfunding.manager.dao.PermissionMapper">
-  <resultMap id="BaseResultMap" type="com.kiger.atcrowdfunding.bean.Permission">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pid" jdbcType="INTEGER" property="pid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.kiger.atcrowdfunding.bean.Permission">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.Permission">
+    <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.Permission">
     insert into t_permission (id, pid, name, 
       icon, url)
     values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{icon,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.Permission">
+    <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.Permission">
     update t_permission
-    set pid = #{pid,jdbcType=INTEGER},
+    set
       name = #{name,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, pid, name, icon, url
     from t_permission
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+    <select id="queryAllPermission" resultMap="BaseResultMap">
     select id, pid, name, icon, url
     from t_permission
   </select>
+
+    <select id="getRootPermission" resultType="Permission">
+        select id, pid, name, icon, url
+        from t_permission where pid is null
+    </select>
+
+    <select id="getChildrenPermisssionByPid" parameterType="int" resultMap="BaseResultMap">
+        select id, pid, name, icon, url
+        from t_permission where pid = #{id}
+    </select>
+
+    <select id="queryPermissionIdsByRoleid" parameterType="int" resultType="int">
+        select permissionid
+        from t_role_permission where roleid = #{roleid}
+    </select>
+
 </mapper>

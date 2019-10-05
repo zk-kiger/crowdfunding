@@ -112,4 +112,16 @@
         </foreach>
     </delete>
 
+    <select id="queryPermissionByUserid" parameterType="int" resultType="Permission">
+        SELECT DISTINCT t_permission.id, t_permission.pid, t_permission.name, t_permission.icon, t_permission.url
+        FROM t_permission,t_role_permission,t_role,
+        t_user_role,t_user
+        WHERE
+        t_permission.`id` = t_role_permission.`permissionid`
+        AND t_role_permission.`roleid` = t_role.`id`
+        AND t_role.`id` = t_user_role.`roleid`
+        AND t_user_role.`userid` = t_user.`id`
+        AND t_user.`id` = #{id} order by t_permission.id
+    </select>
+
 </mapper>

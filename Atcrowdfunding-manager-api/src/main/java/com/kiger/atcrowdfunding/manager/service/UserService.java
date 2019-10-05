@@ -1,5 +1,6 @@
 package com.kiger.atcrowdfunding.manager.service;
 
+import com.kiger.atcrowdfunding.bean.Permission;
 import com.kiger.atcrowdfunding.bean.Role;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.util.Page;
@@ -44,4 +45,6 @@ public interface UserService {
     int saveUserRoleRelationship(Integer userid, Data data);
 
     int deleteUserRoleRelationship(Integer userid, Data data);
+
+    List<Permission> queryPermissionByUserid(Integer id);
 }

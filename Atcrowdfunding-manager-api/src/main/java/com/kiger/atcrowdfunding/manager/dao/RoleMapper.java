@@ -1,6 +1,7 @@
 package com.kiger.atcrowdfunding.manager.dao;
 
 import com.kiger.atcrowdfunding.bean.Role;
+import com.kiger.atcrowdfunding.bean.RolePermission;
 import com.kiger.atcrowdfunding.vo.Data;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public interface RoleMapper {
     Integer queryCount(Map paramMap);
 
     int deleteBatchRole(List<Role> roles);
+
+    void deleteRolePermissionRelationship(Integer roleid);
+
+    int insertRolePermission(RolePermission rp);
 }

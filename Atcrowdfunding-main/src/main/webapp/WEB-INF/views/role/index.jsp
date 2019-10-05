@@ -146,7 +146,7 @@
     // 分页查询
     var jsonObj = {
         "pageno": 1,
-        "pagesize": 5
+        "pagesize": 10
     };
     var loadingIndex = -1;
     function queryPageRole(pageno) {
@@ -171,7 +171,7 @@
                         content += '	<td><input type="checkbox" id="'+ n.id +'" name="'+ n.name +'"></td>';
                         content += '	<td>'+ n.name +'</td>';
                         content += '	<td>';
-                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/role/assign.htm?id='+ n.id +'\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/role/assign.htm?roleid='+ n.id +'\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         content += '		<button type="button" onclick="window.location.href=\'${APP_PATH}/role/edit.htm?id='+ n.id +'\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         content += '		<button type="button" onclick="deleteRole('+ n.id +',\''+ n.name +'\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content += '	</td>';
