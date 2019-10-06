@@ -2,6 +2,7 @@ package com.kiger.atcrowdfunding.manager.dao;
 
 import com.kiger.atcrowdfunding.bean.Cert;
 import java.util.List;
+import java.util.Map;
 
 public interface CertMapper {
     int deleteByPrimaryKey(Integer id);
@@ -13,4 +14,10 @@ public interface CertMapper {
     List<Cert> selectAll();
 
     int updateByPrimaryKey(Cert record);
+
+    List queryList(Map<String, Object> paramMap);
+
+    Integer queryCount(Map<String, Object> paramMap);
+
+    int deleteBatchCert(List<Cert> certs);
 }
