@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Test_1 {
 
     public static void main(String[] args) {
-        ApplicationContext ioc = new ClassPathXmlApplicationContext("spring/spring-*.xml");
+        /*ApplicationContext ioc = new ClassPathXmlApplicationContext("spring/spring-*.xml");
 
         UserService userService = ioc.getBean(UserService.class);
 
@@ -29,7 +29,11 @@ public class Test_1 {
             user.setEmail("Test" + i + "@qq.com");
             user.setCreatetime("2019-09-15 22:06:00");
             userService.saveUser(user);
-        }
+        }*/
+
+        String str = "123";
+        System.out.println(str.indexOf("12"));
+
     }
 
 }

@@ -39,24 +39,24 @@
 
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
         <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" id="floginacct" name="loginacct" value="superadmin"
+            <input type="text" class="form-control" id="floginacct" name="loginacct"
                    placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <input type="password" class="form-control" id="fuserpswd" name="userpswd" value="123" placeholder="请输入登录密码"
+            <input type="password" class="form-control" id="fuserpswd" name="userpswd" placeholder="请输入登录密码"
                    style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
             <select class="form-control" id="ftype" name="type">
-                <option value="member">会员</option>
-                <option value="user" selected>管理</option>
+                <option value="member" selected>会员</option>
+                <option value="user">管理</option>
             </select>
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> 记住我
+                <input id="rememberme" type="checkbox" value="1"> 记住我
             </label>
             <br>
             <label>
@@ -81,7 +81,7 @@
         // 文本框没有内容，获取的值为""
         if ($.trim(loginacct.val()) == "") {
             // alert("用户账号不能为空!");
-            layer.msg("用户账号不能为空!",{time:1000, icon:5, shift:6}, function () {
+            layer.msg("用户账号不能为空!", {time: 1000, icon: 5, shift: 6}, function () {
                 $("#floginacct").focus();
             });
             return false;
@@ -94,27 +94,36 @@
         }
 
         var loadingIndex = -1;
+        var flag = $("#rememberme")[0].checked;
 
         $.ajax({
             type: "POST",
             data: {
                 loginacct: loginacct.val(),
                 userpswd: userpswd.val(),
-                type: type.val()
+                type: type.val(),
+                rememberme: flag?"1":"0"
             },
             url: "${APP_PATH}/doLogin.do",
             beforeSend: function () {
-                loadingIndex = layer.msg('处理中', {icon:6});
+                loadingIndex = layer.msg('处理中', {icon: 6});
                 // 一般做表单数据校验
                 return true;
             },
             success: function (result) {
                 layer.close(loadingIndex);
                 if (result.success) {
-                    // 跳转主页面
-                    window.location.href="${APP_PATH}/main.htm";
+                    if ("member" == result.data) {
+                        window.location.href = "${APP_PATH}/member.htm";
+                    }else if ("user" == result.data) {
+                        // 跳转主页面
+                        window.location.href = "${APP_PATH}/main.htm";
+                    } else {
+                        layer.msg("登录类型不合法!", {time: 1000, icon: 5, shift: 6});
+                    }
+
                 } else {
-                    layer.msg(result.message,{time:1000, icon:5, shift:6});
+                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                 }
             }
         });

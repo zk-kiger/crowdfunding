@@ -4398,7 +4398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // Avoid accuracy problem in edge, such as
 	        // 146.39 - 62.83 === 83.55999999999999.
-	        // See echarts/test/ut/spec/util/number.js#linearMap#accuracyError
+	        // See echarts/testActiviti/ut/spec/util/number.js#linearMap#accuracyError
 	        // It is a little verbose for efficiency considering this method
 	        // is a hotspot.
 	        if (clamp) {
@@ -7303,7 +7303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // It is recommended that `hoverLayerThreshold` is equivalent to or less than
 	        // `progressiveThreshold`, otherwise hover will cause restart of progressive,
 	        // which is unexpected.
-	        // see example <echarts/test/heatmap-large.html>.
+	        // see example <echarts/testActiviti/heatmap-large.html>.
 	        hoverLayerThreshold: 3000,
 
 	        // See: module:echarts/scale/Time
@@ -54784,7 +54784,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// shim for using process in browser
 	var process = module.exports = {};
 
-	// cached from whatever global is present so that test runners that stub it
+	// cached from whatever global is present so that testActiviti runners that stub it
 	// don't break things.  But we need to wrap it in a try catch in case it is
 	// wrapped in strict mode code which doesn't define any globals.  It's inside a
 	// function because try/catches deoptimize in certain engines.
@@ -66270,7 +66270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                linearMap(hoverRange[0], sizeExtent, dataExtent, true),
 	                linearMap(hoverRange[1], sizeExtent, dataExtent, true)
 	            ];
-	            // Consider data range is out of visualMap range, see test/visualMap-continuous.html,
+	            // Consider data range is out of visualMap range, see testActiviti/visualMap-continuous.html,
 	            // where china and india has very large population.
 	            hoverRange[0] < sizeExtent[0] && (valueRange[0] = -Infinity);
 	            hoverRange[1] > sizeExtent[1] && (valueRange[1] = Infinity);
@@ -66291,7 +66291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            // When realtime is set as false, handles, which are in barGroup,
 	            // also trigger hoverLink, which help user to realize where they
-	            // focus on when dragging. (see test/heatmap-large.html)
+	            // focus on when dragging. (see testActiviti/heatmap-large.html)
 	            // When realtime is set as true, highlight will not show when hover
 	            // handle, because the label on handle, which displays a exact value
 	            // but not range, might mislead users.

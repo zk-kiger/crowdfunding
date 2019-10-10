@@ -160,7 +160,6 @@
         }
 
         .newsList li {
-            background: url("../images/share/point.png") no-repeat 2px 14px;
             padding-left: 10px;
             height: 30px;
             line-height: 30px;

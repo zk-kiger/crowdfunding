@@ -1,6 +1,7 @@
-package com.kiger.atcrowdfunding.manager.dao;
+package com.kiger.atcrowdfunding.potal.dao;
 
 import com.kiger.atcrowdfunding.bean.MemberProjectFollow;
+
 import java.util.List;
 
 public interface MemberProjectFollowMapper {

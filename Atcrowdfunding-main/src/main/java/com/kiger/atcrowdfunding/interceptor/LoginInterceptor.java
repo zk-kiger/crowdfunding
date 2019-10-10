@@ -1,5 +1,6 @@
 package com.kiger.atcrowdfunding.interceptor;
 
+import com.kiger.atcrowdfunding.bean.Member;
 import com.kiger.atcrowdfunding.bean.User;
 import com.kiger.atcrowdfunding.util.Const;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -30,6 +31,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         uri.add("/login.htm");
         uri.add("/doLogin.do");
         uri.add("/logout.do");
+        uri.add("/index.htm");
 
         // 获取请求路径
         String servletPath = request.getServletPath();
@@ -42,7 +44,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         // 2.判断用户是否登录,如果登录放行
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute(Const.LOGIN_USER);
-        if (user != null) {
+        Member member = (Member)session.getAttribute(Const.LOGIN_MEMBER);
+        if (user != null || member != null) {
             return true;
         } else {
             response.sendRedirect(request.getContextPath() + "/login.htm");

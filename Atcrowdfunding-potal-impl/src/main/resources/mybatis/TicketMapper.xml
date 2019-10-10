@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiger.atcrowdfunding.potal.dao.TicketMapper">
+    <resultMap id="BaseResultMap" type="com.kiger.atcrowdfunding.bean.Ticket">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="memberid" property="memberid"/>
+        <result column="piid" property="piid"/>
+        <result column="status" property="status"/>
+        <result column="authcode" property="authcode"/>
+        <result column="pstep" property="pstep"/>
+    </resultMap>
+
+    <insert id="saveTicket" parameterType="com.kiger.atcrowdfunding.bean.Ticket">
+    insert into t_ticket (memberid, status, pstep)
+    values (#{memberid}, #{status}, #{pstep})
+  </insert>
+
+    <update id="updateAcctType" parameterType="com.kiger.atcrowdfunding.bean.Ticket">
+    update t_ticket
+    set
+      accttype = #{accttype,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateBasicinfo" parameterType="com.kiger.atcrowdfunding.bean.Ticket">
+    update t_ticket
+    set
+      realname = #{realname,jdbcType=VARCHAR},
+      cardnum = #{cardnum,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getTicketByMemberId" resultMap="BaseResultMap">
+    select *
+    from t_ticket
+    where memberid = #{memberid} and status = '0'
+  </select>
+
+    <update id="updatePstep">
+    update t_ticket
+    set pstep = #{pstep}
+    where memberid = #{memberid} and status = '0'
+  </update>
+</mapper>
