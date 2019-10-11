@@ -75,4 +75,18 @@
       tel = #{tel,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <update id="updateEmail" parameterType="com.kiger.atcrowdfunding.bean.Member">
+    update t_member
+    set
+      email = #{email}
+    where id = #{id}
+  </update>
+
+    <update id="updateAuthStatus" parameterType="com.kiger.atcrowdfunding.bean.Member">
+    update t_member
+    set
+      authstatus = #{authstatus}
+    where id = #{id}
+  </update>
 </mapper>

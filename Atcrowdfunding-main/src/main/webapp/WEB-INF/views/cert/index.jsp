@@ -79,7 +79,7 @@
                             onclick="deleteCerts()"><i class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary" style="float:right;"
-                            onclick="window.location.href='${APP_PATH}/cert/add.htm'"><i
+                            onclick="window.location.href='${APP_PATH}/cert.text/add.htm'"><i
                             class="glyphicon glyphicon-plus"></i> 新增
                     </button>
                     <br>
@@ -157,7 +157,7 @@
         }
 
         $.ajax({
-            url: "${APP_PATH}/cert/pageQuery.do",
+            url: "${APP_PATH}/cert.text/pageQuery.do",
             type: "POST",
             data: obj,
             beforeSend: function () {
@@ -179,7 +179,7 @@
                         content = content + '  <td>' + cert.name + '</td>';
                         content = content + '  <td>';
                         content = content + '      <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        content = content + '      <button type="button" onclick="window.location.href=\'${APP_PATH}/cert/edit.htm?pageno=' + pageObj.pageno + '&id=' + cert.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                        content = content + '      <button type="button" onclick="window.location.href=\'${APP_PATH}/cert.text/edit.htm?pageno=' + pageObj.pageno + '&id=' + cert.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         content = content + '	   <button type="button" onclick="deleteCert(' + cert.id + ', \'' + cert.name + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content = content + '  </td>';
                         content = content + '</tr>';
@@ -230,7 +230,7 @@
         layer.confirm("删除账号为" + name + "资质, 是否继续？", {icon: 3, title: '提示'}, function (cindex) {
             // 删除数据
             $.ajax({
-                url: "${APP_PATH}/cert/doDelete.do",
+                url: "${APP_PATH}/cert.text/doDelete.do",
                 type: "POST",
                 data: {
                     id: id
@@ -276,7 +276,7 @@
                     obj["certs[" + i + "].id"] = n.value;
                 });
                 $.ajax({
-                    url: "${APP_PATH}/cert/deleteBatch.do",
+                    url: "${APP_PATH}/cert.text/deleteBatch.do",
                     type: "POST",
                     data: obj,
                     success: function (result) {

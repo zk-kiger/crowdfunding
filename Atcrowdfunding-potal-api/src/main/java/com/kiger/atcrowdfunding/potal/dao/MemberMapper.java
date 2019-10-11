@@ -21,4 +21,8 @@ public interface MemberMapper {
     int updateAcctType(Member loginMember);
 
     int updateBasicinfo(Member loginMember);
+
+    void updateEmail(Member loginMember);
+
+    void updateAuthStatus(Member loginMember);
 }

@@ -1,6 +1,8 @@
 package com.kiger.atcrowdfunding.manager.dao;
 
 import com.kiger.atcrowdfunding.bean.Cert;
+import com.kiger.atcrowdfunding.bean.MemberCert;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,4 +22,8 @@ public interface CertMapper {
     Integer queryCount(Map<String, Object> paramMap);
 
     int deleteBatchCert(List<Cert> certs);
+
+    List<Cert> queryCertAccttype(String accttype);
+
+    void insertMemberCert(MemberCert memberCert);
 }

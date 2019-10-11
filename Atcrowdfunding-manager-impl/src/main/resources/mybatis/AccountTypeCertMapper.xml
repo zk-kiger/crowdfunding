@@ -6,15 +6,13 @@
     <result column="accttype" jdbcType="CHAR" property="accttype" />
     <result column="certid" jdbcType="INTEGER" property="certid" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteAcctTypeCert">
     delete from t_account_type_cert
-    where id = #{id,jdbcType=INTEGER}
+    where certid = #{certid} and accttype = #{accttype}
   </delete>
-  <insert id="insert" parameterType="com.kiger.atcrowdfunding.bean.AccountTypeCert">
-    insert into t_account_type_cert (id, accttype, certid
-      )
-    values (#{id,jdbcType=INTEGER}, #{accttype,jdbcType=CHAR}, #{certid,jdbcType=INTEGER}
-      )
+  <insert id="insertAcctTypeCert">
+    insert into t_account_type_cert (accttype, certid)
+    values (#{accttype,jdbcType=CHAR}, #{certid,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.kiger.atcrowdfunding.bean.AccountTypeCert">
     update t_account_type_cert
@@ -31,4 +29,10 @@
     select id, accttype, certid
     from t_account_type_cert
   </select>
+
+  <select id="queryCertAccttype" resultType="map">
+    select accttype, certid
+    from t_account_type_cert
+  </select>
+
 </mapper>

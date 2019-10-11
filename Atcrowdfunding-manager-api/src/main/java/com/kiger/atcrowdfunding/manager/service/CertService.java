@@ -1,9 +1,11 @@
 package com.kiger.atcrowdfunding.manager.service;
 
 import com.kiger.atcrowdfunding.bean.Cert;
+import com.kiger.atcrowdfunding.bean.MemberCert;
 import com.kiger.atcrowdfunding.util.Page;
 import com.kiger.atcrowdfunding.vo.Data;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,4 +28,10 @@ public interface CertService {
     void saveCert(Cert cert);
 
     int updateCert(Cert cert);
+
+    List<Cert> queryAllCert();
+
+    List<Cert> queryCertAccttype(String accttype);
+
+    void saveMemberCert(List<MemberCert> certimgs);
 }

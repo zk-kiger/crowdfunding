@@ -119,7 +119,7 @@
             	var loadingIndex = -1;
             	// 提交表单
             	$.ajax({
-            		url : "${APP_PATH}/cert/doAdd.do",
+            		url : "${APP_PATH}/cert.text/doAdd.do",
             		type : "POST",
             		data : {
             			"name"  : $("#certname").val()
@@ -131,7 +131,7 @@
             			layer.close(loadingIndex);
             			if ( result.success ) {
             				layer.msg("资质信息保存成功!", {time:1000, icon:6}, function(){
-            					window.location.href = "${APP_PATH}/cert/index.htm";
+            					window.location.href = "${APP_PATH}/cert.text/index.htm";
             				});
             			} else {
             				layer.msg("资质信息保存失败!", {time:1000, icon:5, shift:6});

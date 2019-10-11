@@ -18,4 +18,6 @@ public interface TicketMapper {
     Ticket getTicketByMemberId(Integer memberid);
 
     void updatePstep(Ticket ticket);
+
+    void updatePiidAndPstep(Ticket ticket);
 }

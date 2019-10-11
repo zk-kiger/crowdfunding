@@ -1,6 +1,7 @@
 package com.kiger.atcrowdfunding.manger.service.impl;
 
 import com.kiger.atcrowdfunding.bean.Cert;
+import com.kiger.atcrowdfunding.bean.MemberCert;
 import com.kiger.atcrowdfunding.manager.dao.CertMapper;
 import com.kiger.atcrowdfunding.manager.service.CertService;
 import com.kiger.atcrowdfunding.util.Page;
@@ -56,5 +57,20 @@ public class CertServiceImpl implements CertService {
 
     public int updateCert(Cert cert) {
         return certMapper.updateByPrimaryKey(cert);
+    }
+
+    public List<Cert> queryAllCert() {
+        return certMapper.selectAll();
+    }
+
+    public List<Cert> queryCertAccttype(String accttype) {
+        return certMapper.queryCertAccttype(accttype);
+    }
+
+    public void saveMemberCert(List<MemberCert> certimgs) {
+        for (MemberCert memberCert :
+            certimgs) {
+            certMapper.insertMemberCert(memberCert);
+        }
     }
 }

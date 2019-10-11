@@ -55,4 +55,15 @@
             #{cert.id}
         </foreach>
     </delete>
+
+    <select id="queryCertAccttype" resultType="cert" parameterType="string">
+        select * from t_cert where id
+        in (select certid from t_account_type_cert where accttype = #{accttype})
+    </select>
+
+    <insert id="insertMemberCert">
+        insert into t_member_cert(memberid, certid, iconpath)
+        values(#{memberid}, #{certid}, #{iconpath})
+    </insert>
+
 </mapper>

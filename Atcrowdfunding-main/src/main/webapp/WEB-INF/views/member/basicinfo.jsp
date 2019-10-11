@@ -44,7 +44,7 @@
                                 <li><a href="member.html"><i class="glyphicon glyphicon-scale"></i> 会员中心</a></li>
                                 <li><a href="#"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
                                 <li class="divider"></li>
-                                <li><a href="${APP_PATH}/logout.htm"><i class="glyphicon glyphicon-off"></i> 退出系统</a>
+                                <li><a href="${APP_PATH}/logout.do"><i class="glyphicon glyphicon-off"></i> 退出系统</a>
                                 </li>
                             </ul>
                         </li>
@@ -125,7 +125,7 @@
             },
             success: function (result) {
                 if (result.success) {
-                    window.location.href = "${APP_PATH}/member/uploadCert.htm";
+                    window.location.href = "${APP_PATH}/member/apply.htm";
                 } else {
                     layer.msg(result.message, {time: 1000, icon: 5, shift:6});
                 }

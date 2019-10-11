@@ -65,7 +65,7 @@
         <span><i class="glyphicon glyphicon-th-large"></i> 业务管理 <span class="badge" style="float:right">7</span></span>
         <ul style="margin-top:10px;display:none;">
             <li style="height:30px;">
-                <a href="cert.html"><i class="glyphicon glyphicon-picture"></i> 资质维护</a>
+                <a href="cert.text.html"><i class="glyphicon glyphicon-picture"></i> 资质维护</a>
             </li>
             <li style="height:30px;">
                 <a href="type.html"><i class="glyphicon glyphicon-equalizer"></i> 分类管理</a>

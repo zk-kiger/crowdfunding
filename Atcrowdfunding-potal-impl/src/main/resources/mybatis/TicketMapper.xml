@@ -42,4 +42,10 @@
     set pstep = #{pstep}
     where memberid = #{memberid} and status = '0'
   </update>
+
+    <update id="updatePiidAndPstep">
+        update t_ticket
+        set pstep = #{pstep}, authcode = #{authcode}, piid = #{piid}
+        where id = #{id}
+    </update>
 </mapper>

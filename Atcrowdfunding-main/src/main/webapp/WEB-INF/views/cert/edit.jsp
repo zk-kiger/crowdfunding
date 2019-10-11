@@ -94,7 +94,7 @@
             	var loadingIndex = -1;
             	// 提交表单
             	$.ajax({
-            		url : "${APP_PATH}/cert/doEdit.do",
+            		url : "${APP_PATH}/cert.text/doEdit.do",
             		type : "POST",
             		data : {
             			"name"  : $("#certname").val(),
@@ -107,7 +107,7 @@
             			layer.close(loadingIndex);
             			if ( result.success ) {
             				layer.msg("资质信息修改成功", {time:1000, icon:6}, function(){
-            					window.location.href = "${APP_PATH}/cert/index.htm?pageno=${param.pageno}";
+            					window.location.href = "${APP_PATH}/cert.text/index.htm?pageno=${param.pageno}";
             				});
             			} else {
             				layer.msg("资质信息修改失败", {time:1000, icon:5, shift:6});

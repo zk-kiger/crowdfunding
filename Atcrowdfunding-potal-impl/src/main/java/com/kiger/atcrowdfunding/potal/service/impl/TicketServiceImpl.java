@@ -32,4 +32,8 @@ public class TicketServiceImpl implements TicketService {
     public void updatePstep(Ticket ticket) {
         ticketMapper.updatePstep(ticket);
     }
+
+    public void updatePiidAndPstep(Ticket ticket) {
+        ticketMapper.updatePiidAndPstep(ticket);
+    }
 }
